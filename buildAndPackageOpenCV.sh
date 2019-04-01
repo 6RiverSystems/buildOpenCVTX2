@@ -71,14 +71,15 @@ apt-get install -y \
     ccache \
     git \
     curl \
+    libtbb-dev \
     pkg-config
 
 # https://devtalk.nvidia.com/default/topic/1007290/jetson-tx2/building-opencv-with-opengl-support-/post/5141945/#5141945
-#cd /usr/local/cuda/include
-#patch -N cuda_gl_interop.h $WHEREAMI'/patches/OpenGLHeader.patch' 
+cd /usr/local/cuda/include
+patch -N cuda_gl_interop.h $WHEREAMI'/patches/OpenGLHeader.patch' 
 # Clean up the OpenGL tegra libs that usually get crushed
-#cd /usr/lib/aarch64-linux-gnu/
-#ln -sf tegra/libGL.so libGL.so
+cd /usr/lib/aarch64-linux-gnu/
+ln -sf tegra/libGL.so libGL.so
 
 # Python 2.7
 apt-get install -y python-dev python-numpy python-py python-pytest
@@ -123,8 +124,6 @@ time cmake \
     -DBUILD_opencv_python2=ON \
     -DBUILD_opencv_python3=OFF \
     -DENABLE_PRECOMPILED_HEADERS=OFF \
-    -DWITH_OPENCL=OFF \
-    -DWITH_OPENMP=OFF \
     -DWITH_FFMPEG=OFF \
     -DWITH_GSTREAMER=OFF \
     -DWITH_GSTREAMER_0_10=OFF \
@@ -134,9 +133,6 @@ time cmake \
     -DWITH_LIBV4L=OFF \
     -DWITH_GTK=OFF \
     -DWITH_VTK=OFF \
-    -DWITH_TBB=OFF \
-    -DWITH_1394=OFF \
-    -DWITH_OPENEXR=OFF \
     -DCUDA_ARCH_BIN=${ARCH_BIN} \
     -DCUDA_ARCH_PTX="" \
     -DWITH_QT=OFF \
